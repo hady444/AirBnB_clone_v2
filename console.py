@@ -118,31 +118,44 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
             return
-        else:
-            dictionary = dict()
-            args = arg.split()
-            if args[0] not in HBNBCommand.classes.keys():
-                print("** class doesn't exist **")
-                return
-            for item in args[1:]:
-                key, value = item.split('=')
-                if value[0] == value[-1] == '"':
-                    value = value.split()[0].replace('_', ' ')
-                else:
-                    try:
-                        value = float(value)
-                    except:
-                        try:
-                            value = int(value)
-                        except:
-                            continue
-                dictionary[key] = value
 
-        new_instance = HBNBCommand.classes[args[0]]()
-        new_instance.save()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
+        args = arg.split()
+        class_name = args[0]
+
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        params = {}
+        for param in args[1:]:
+            parts = param.split('=')
+            if len(parts) != 2:
+                continue
+
+            key, value = parts
+            if not value.startswith('"') or not value.endswith('"'):
+                continue
+
+            value = value[1:-1]  # Remove quotes
+            value = value.replace('_', ' ')  # Replace underscores with spaces
+            value = value.replace('\\"', '"')  # Unescape double quotes
+            if '.' in value:
+                try:
+                    value = float(value)
+                except ValueError:
+                    continue
+            else:
+                try:
+                    value = int(value)
+                except ValueError:
+                    continue
+
+            params[key] = value
+
+        obj = HBNBCommand.classes[class_name](**params)
+        obj.save()
+        print(obj.id)
+
 
     def help_create(self):
         """ Help information for the create method """
