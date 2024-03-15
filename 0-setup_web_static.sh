@@ -5,7 +5,6 @@ sudo apt-get update
 sudo apt-get -y install nginx
 mkdir -p /data/web_static/releases/test
 mkdir -p /data/web_static/shared
-cd releases && mkdir test && cd test
 echo '
 <!DOCTYPE HTML>
 <head>
@@ -37,4 +36,4 @@ server {
 }
 ' > /etc/nginx/sites-available/default
 
-service nginx restart
+sudo systemctl restart nginx
