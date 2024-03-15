@@ -5,16 +5,7 @@ apt-get update
 apt-get install -y nginx
 mkdir -p /data/web_static/releases/test/
 mkdir -p /data/web_static/shared/
-echo "
-<!DOCTYPE HTML>
-<html>
-<head>
-</head>
-<body>
-Holeborton School
-</body>
-</html>
-" > /data/web_static/releases/test/index.html
+echo "Hello World" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test /data/web_static/current
 
 sudo chown -R ubuntu /data
@@ -24,7 +15,7 @@ echo "
 server {
         listen 80 default_server;
         listen [::]:80 default_server;
-        add_header X-Served-By \$HOSTNAME;
+        add_header X-Served-By $HOSTNAME;
         root /var/www/html;
         index index.html index.htm;
 
@@ -44,4 +35,4 @@ server {
         }
 }
 " > /etc/nginx/sites-available/default
-sudo systemctl restart nginx
+service nginx restart
