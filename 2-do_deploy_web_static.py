@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-""" Upload to web servers """
-
+"""Upload to web servers"""
 
 from fabric.api import put, run, env
 import os.path
@@ -9,16 +8,26 @@ env.hosts = ['477100-web-01', '477100-web-02']
 
 
 def do_deploy(archive_path):
-    """ deploy on 2 webservers """
+    """Deploy on 2 webservers"""
     if not os.path.isfile(archive_path):
         return False
-    put(archive_path, '/tmp')
+
     name_of_file = os.path.basename(archive_path).split('.')[0]
-    run('mkdir -p /data/web_static/releases/{}'.format(name_of_file))
-    run('tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}'.format(
-        name_of_file, name_of_file))
-    run('rm /tmp/{}.tgz'.format(name_of_file))
-    run('rm -f /data/web_static/current')
-    run('ln -s /data/web_static/releases/{} /data/web_static/current'.format(
-        name_of_file))
+
+    if put(archive_path, '/tmp').failed:
+        return False
+    if (run('mkdir -p /data/web_static/releases/{}'.format(
+            name_of_file)).failed):
+        return False
+    if (run('tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}'.format(
+            name_of_file, name_of_file)).failed):
+        return False
+    if run('rm /tmp/{}.tgz'.format(name_of_file)).failed:
+        return False
+    if run('rm -f /data/web_static/current').failed:
+        return False
+    if (run('ln -s /data/web_static/releases/{}'.format(
+            name_of_file) '/data/web_static/current').failed):
+        return False
+
     return True
