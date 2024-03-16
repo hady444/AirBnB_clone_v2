@@ -9,6 +9,7 @@ env.hosts = ['477100-web-01', '477100-web-02']
 
 
 def do_deploy(archive_path):
+    """ deploy on 2 webservers """
     if not os.path.isfile(archive_path):
         return False
     put(archive_path, '/tmp')
