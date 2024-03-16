@@ -17,22 +17,21 @@ def do_deploy(archive_path):
     if not os.path.isfile(archive_path):
         return False
 
-    name_of_file = os.path.basename(archive_path).split('.')[0]
+    f_name = os.path.basename(archive_path).split('.')[0]
 
     if put(archive_path, '/tmp').failed:
         return False
-    if (run('mkdir -p /data/web_static/releases/{}'.format(
-            name_of_file)).failed):
+    if run('mkdir -p /data/web_static/releases/{}'.format(f_name)).failed:
         return False
-    if (run('tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}'.format(
-            name_of_file, name_of_file)).failed):
+    if run('tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}'.format(
+            f_name, f_name)).failed:
         return False
-    if run('rm /tmp/{}.tgz'.format(name_of_file)).failed:
+    if run('rm /tmp/{}.tgz'.format(f_name)).failed:
         return False
     if run('rm -f /data/web_static/current').failed:
         return False
-    if (run('ln -s /data/web_static/releases/{}'.format(
-            name_of_file) '/data/web_static/current').failed):
+    if run('ln -s /data/web_static/releases/{} /data/web_static/current'.format(
+            f_name)).failed:
         return False
 
     return True
