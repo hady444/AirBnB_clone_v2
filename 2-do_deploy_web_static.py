@@ -5,6 +5,7 @@ import os.path
 
 env.hosts = ['35.175.134.192', '34.207.63.125']
 
+
 def do_deploy(archive_path):
     """Distributes an archive to a web server.
 
@@ -30,8 +31,7 @@ def do_deploy(archive_path):
         return False
     if run('rm -f /data/web_static/current').failed:
         return False
-    if run('ln -s /data/web_static/releases/{} /data/web_static/current'.format(
-            f_name)).failed:
+    if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
+           format(f_name)).failed:
         return False
-
     return True
