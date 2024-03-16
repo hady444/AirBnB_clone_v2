@@ -4,7 +4,7 @@
 """
 
 
-from Fabric import Connection
+from fabric.api import local
 import os.path
 from datetime import datetime
 
