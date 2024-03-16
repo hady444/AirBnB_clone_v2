@@ -11,7 +11,7 @@ from datetime import datetime
 
 def do_pack():
     date = datetime.utcnow()
-    file_name = "versions/web_static_{}{}{}{}{}{}.tgz".format(
+    file_name = "versions/web_static_{}{:02d}{:02d}{:02d}{:02d}{:02d}.tgz".format(
             date.year, date.month, date.day, date.hour, date.minute,
             date.second)
     if (os.path.isdir('versions') is False):
