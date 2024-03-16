@@ -10,6 +10,7 @@ from datetime import datetime
 
 
 def do_pack():
+    """ function to archive web static file """
     date = datetime.utcnow()
     file_name = "versions/web_static_{}{:02d}{:02d}{:02d}{:02d}{:02d}.tgz".format(
             date.year, date.month, date.day, date.hour, date.minute,
