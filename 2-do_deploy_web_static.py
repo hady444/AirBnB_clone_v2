@@ -9,14 +9,15 @@ env.hosts = ['477100-web-01', '477100-web-02']
 
 
 def do_deploy(archive_path):
-    """Deploy the specified archive to multiple web servers.
+    """Distributes an archive to a web server.
 
     Args:
-        archive_path (str): The path to the archived file to be deployed.
-
+        archive_path (str): The path of the archive to distribute.
     Returns:
-        bool: True if the deployment is successful, False otherwise.
+        If the file doesn't exist at archive_path or an error occurs - False.
+        Otherwise - True.
     """
+
     if not os.path.isfile(archive_path):
         return False
 
