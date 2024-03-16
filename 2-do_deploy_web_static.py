@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Upload to web servers"""
 
+
 from fabric.api import put, run, env
 import os.path
 
@@ -8,7 +9,8 @@ env.hosts = ['477100-web-01', '477100-web-02']
 
 
 def do_deploy(archive_path):
-    """Deploy on 2 webservers"""
+    """ Deploy on 2 webservers """
+
     if not os.path.isfile(archive_path):
         return False
 
