@@ -9,6 +9,6 @@ do_deploy = __import__('2-do_deploy_web_static').do_deploy
 def deploy():
     """ Full deployment """
     archive_file = do_pack()
-    if not archive_file:
+    if archive_file is None:
         return False
-    return (do_deploy(archive_file))
+    return do_deploy(archive_file)
